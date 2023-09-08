@@ -1,9 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Infrastructure.StateMachine;
+using Infrastructure.States;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Words;
+using Zenject;
 
 public class Game : MonoBehaviour
 {
@@ -60,11 +64,18 @@ public class Game : MonoBehaviour
                                                         "Название игровой студии \"Rockstar Games\" было придумано из-за  песни \"Rockstar\" (звезда рока) группы \"Gang of Four\".;" +
                                                         "Название игровой студии \"Electronic Arts\" (EA) было придумано основателем компании Трипом Хокинсом. В 1982 году, когда Хокинс основал компанию, он и его партнеры решили создать студию, которая объединяет искусство и высокую технологию в области интерактивного развлечения.;" +
                                                         "В 1993 году была создана российская студия разработки игр Б.У.К.А., ее название было собрано из первых букв фамилии основателей компании: Белодородов, Устинов, Капустина-Ревун, Антонов.");
+
+    public Game(GameStateMachine stateMachine)
+    {
+        stateMachine.Enter<GameStartState>();
+    }
+
     private void Start()
     {
         UnlockSavedWords();
         levelLoader.Initialize(allWordsList, livesUI, interactionObjects, downBorder, levelUI);
         mainMenuUI.Initialize(allWordsList, levelLoader);
+        
     }
     
     public void UnlockSavedWords()
