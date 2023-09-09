@@ -7,14 +7,12 @@ namespace Infrastructure.States
 {
     public class GameStartState: IState
     {
-        private GameStateMachine _stateMachine;
         private AllWordsList _allWordsList;
 
         [Inject]
-        public void Initialize(GameStateMachine stateMachine,AllWordsList allWordsList)
+        public void Initialize(AllWordsList allWordsList)
         {
             _allWordsList = allWordsList;
-            _stateMachine = stateMachine;
         }
         public void Enter()
         {
