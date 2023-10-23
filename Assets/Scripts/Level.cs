@@ -25,7 +25,7 @@ public class Level : MonoBehaviour
 
     private int _currentLivesCount;
     private Lives _lives;
-    private InterractionObjects _interractionObjects;
+    private InteractionObjects _interactionObjects;
     private AllWordsList _allWordsList;
     private UnityAction _openMainMenuAction;
     private GameObject _loseLevelScreen;
@@ -33,7 +33,7 @@ public class Level : MonoBehaviour
 
     public void Initialize(AllWordsList allWords, 
         Lives lives, 
-        InterractionObjects interractionObjects, 
+        InteractionObjects interactionObjects, 
         DownBorder downBorder, 
         UnityAction openMainMenuAction, 
         GameObject winLevelScreen, 
@@ -46,12 +46,12 @@ public class Level : MonoBehaviour
         _openMainMenuAction = openMainMenuAction;
         _allWordsList = allWords;
         _lives = lives;
-        _interractionObjects = interractionObjects;
-        _interractionObjects.gameObject.SetActive(true);
+        _interactionObjects = interactionObjects;
+        _interactionObjects.gameObject.SetActive(true);
         _lives.gameObject.SetActive(true);
         downBorder.Initialize(LoseLive);
         gameObject.SetActive(true);
-        interractionObjects.ball.Initialize(ballPosition.transform.position);
+        interactionObjects.ball.Initialize(ballPosition.transform.position);
         
         exitButton.onClick.RemoveAllListeners();
         exitButton.onClick.AddListener(LoseLevel);
@@ -83,11 +83,11 @@ public class Level : MonoBehaviour
     private void LoseLive()
     {
         CurrentLivesCount--;
-        _interractionObjects.ball.gameObject.SetActive(false);
-        _interractionObjects.ball.Initialize(ballPosition.transform.position);
+        _interactionObjects.ball.gameObject.SetActive(false);
+        _interactionObjects.ball.Initialize(ballPosition.transform.position);
         if (CurrentLivesCount <= 0)
         {
-            _interractionObjects.ball.ballRigidbody.AddForce(Vector2.zero);
+            _interactionObjects.ball.ballRigidbody.AddForce(Vector2.zero);
             LoseLevel();
         }
         
@@ -96,7 +96,7 @@ public class Level : MonoBehaviour
     private void LoseLevel()
     {
         gameObject.SetActive(false);
-        _interractionObjects.gameObject.SetActive(false);
+        _interactionObjects.gameObject.SetActive(false);
         _lives.gameObject.SetActive(false);
         _openMainMenuAction?.Invoke();
         _loseLevelScreen.SetActive(true);
@@ -123,7 +123,7 @@ public class Level : MonoBehaviour
     private void EndLevel()
     {
         _allWordsList.SaveAllUnlockedWordsId();
-        _interractionObjects.gameObject.SetActive(false);
+        _interactionObjects.gameObject.SetActive(false);
         _lives.gameObject.SetActive(false);
         gameObject.SetActive(false);
         _openMainMenuAction?.Invoke();

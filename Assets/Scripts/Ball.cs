@@ -11,7 +11,6 @@ public class Ball : MonoBehaviour
         ballRigidbody.AddForce(Vector2.zero);
         transform.position = position;
         gameObject.SetActive(true);
-        Invoke(nameof(SetRandomForce), 1f);
     }
 
     private void SetRandomForce()

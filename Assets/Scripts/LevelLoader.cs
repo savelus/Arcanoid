@@ -15,7 +15,7 @@ public class LevelLoader : MonoBehaviour
     public Lives Lives;
     private AllWordsList _allWords;
     private int _levelsCount;
-    private InterractionObjects _interractionObjects;
+    private InteractionObjects _interactionObjects;
     private DownBorder _downBorder;
     private GameObject _levelUI;
     [SerializeField] private Canvas _canvas;
@@ -35,7 +35,14 @@ public class LevelLoader : MonoBehaviour
     {
         _blockSize = blocks.BlockSize;
         var currentLevel = _levels[Random.Range(0, _levels.Length - 1)];
+        
         SetupBlocks(currentLevel);
+        SetupPlatform();
+    }
+
+    private void SetupPlatform()
+    {
+        throw new NotImplementedException();
     }
 
     private void SetupBlocks(LevelConfig level)
