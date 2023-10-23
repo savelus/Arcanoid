@@ -11,16 +11,28 @@ public class Level : MonoBehaviour
     public List<StoneBlock> allCrushedBlocks;
     public List<ShieldBlock> allShieldBlocks;
     public GameObject ballPosition;
-    private int _currentLives = 3;
-    private LivesUI _livesUI;
+    public int StartLivesCount = 3;
+    
+    public  int CurrentLivesCount
+    {
+        get => _currentLivesCount;
+        private set
+        {
+            _currentLivesCount = value;
+            UpdateViewLives();
+        }
+    }
+
+    private int _currentLivesCount;
+    private Lives _lives;
     private InterractionObjects _interractionObjects;
-    private AllWordsList _allWords;
+    private AllWordsList _allWordsList;
     private UnityAction _openMainMenuAction;
     private GameObject _loseLevelScreen;
     private GameObject _winLevelScreen;
 
     public void Initialize(AllWordsList allWords, 
-        LivesUI livesUI, 
+        Lives lives, 
         InterractionObjects interractionObjects, 
         DownBorder downBorder, 
         UnityAction openMainMenuAction, 
@@ -28,46 +40,52 @@ public class Level : MonoBehaviour
         GameObject loseLevelScreen,
         Button exitButton)
     {
-        _currentLives = 3;
+        
         _winLevelScreen = winLevelScreen;
         _loseLevelScreen = loseLevelScreen;
         _openMainMenuAction = openMainMenuAction;
-        _allWords = allWords;
-        _livesUI = livesUI;
+        _allWordsList = allWords;
+        _lives = lives;
         _interractionObjects = interractionObjects;
         _interractionObjects.gameObject.SetActive(true);
-        _livesUI.gameObject.SetActive(true);
-        UpdateViewLives();
+        _lives.gameObject.SetActive(true);
         downBorder.Initialize(LoseLive);
         gameObject.SetActive(true);
-        var wordsForBlocks = allWords.GetRandomWords(wordBlocks.Count);
-        for (var i = 0; i < wordBlocks.Count; i++)
-        {
-            var wordBlock = wordBlocks[i];
-            wordBlock.Initialize(wordsForBlocks[i], CheckEndLevel);
-        }
-
-        if (allShieldBlocks.Count > 0)
-        {
-            foreach (var shieldBlock in allShieldBlocks)
-            {
-                shieldBlock.Initialize(CheckEndLevel);
-            }
-        }
-
         interractionObjects.ball.Initialize(ballPosition.transform.position);
         
         exitButton.onClick.RemoveAllListeners();
         exitButton.onClick.AddListener(LoseLevel);
     }
 
+    public void StartLevel(AllWordsList allWordsList)
+    {
+        CurrentLivesCount = StartLivesCount;
+        InitializeWordBlocks(allWordsList.GetRandomWords(wordBlocks.Count));
+        InitializeShields();
+    }
+
+    private void InitializeWordBlocks( List<Word> wordsForBlocks)
+    {
+        for (var i = 0; i < wordBlocks.Count; i++)
+        {
+            var wordBlock = wordBlocks[i];
+            wordBlock.Initialize(wordsForBlocks[i], CheckEndLevel);
+        }
+    }
+
+    private void InitializeShields()
+    {
+        if (allShieldBlocks.Count <= 0) return;
+        foreach (var shieldBlock in allShieldBlocks) 
+            shieldBlock.Initialize(CheckEndLevel);
+    }
+
     private void LoseLive()
     {
-        _currentLives--;
-        UpdateViewLives();
+        CurrentLivesCount--;
         _interractionObjects.ball.gameObject.SetActive(false);
         _interractionObjects.ball.Initialize(ballPosition.transform.position);
-        if (_currentLives <= 0)
+        if (CurrentLivesCount <= 0)
         {
             _interractionObjects.ball.ballRigidbody.AddForce(Vector2.zero);
             LoseLevel();
@@ -79,7 +97,7 @@ public class Level : MonoBehaviour
     {
         gameObject.SetActive(false);
         _interractionObjects.gameObject.SetActive(false);
-        _livesUI.gameObject.SetActive(false);
+        _lives.gameObject.SetActive(false);
         _openMainMenuAction?.Invoke();
         _loseLevelScreen.SetActive(true);
         
@@ -87,7 +105,7 @@ public class Level : MonoBehaviour
 
     public void UpdateViewLives()
     {
-        _livesUI.ViewCountLives(_currentLives);
+        _lives.ViewCountLives(CurrentLivesCount);
     }
 
     public void CheckEndLevel()
@@ -104,9 +122,9 @@ public class Level : MonoBehaviour
 
     private void EndLevel()
     {
-        _allWords.SaveAllUnlockedWordsId();
+        _allWordsList.SaveAllUnlockedWordsId();
         _interractionObjects.gameObject.SetActive(false);
-        _livesUI.gameObject.SetActive(false);
+        _lives.gameObject.SetActive(false);
         gameObject.SetActive(false);
         _openMainMenuAction?.Invoke();
         _winLevelScreen.SetActive(true);

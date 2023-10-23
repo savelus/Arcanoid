@@ -1,29 +1,28 @@
-﻿using Infrastructure.StateMachine;
-using UnityEngine;
+﻿using UnityEngine;
 using Words;
-using Zenject;
 
-namespace Infrastructure.States
+namespace Infrastructure.StateMachine.States
 {
     public class GameStartState: IState
     {
         private AllWordsList _allWordsList;
 
-        [Inject]
-        public void Initialize(AllWordsList allWordsList)
+        public GameStartState(AllWordsList allWordsList)
         {
             _allWordsList = allWordsList;
         }
+
         public void Enter()
         {
             UnlockSavedWords();
+            GameStateMachine.Enter<MainMenuState>();
         }
 
         public void Exit()
         {
             
         }
-        
+
         public void UnlockSavedWords()
         {
             var unlockedWords = PlayerPrefs.GetString("savedWords", "none");

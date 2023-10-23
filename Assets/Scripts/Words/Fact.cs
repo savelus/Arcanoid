@@ -6,8 +6,9 @@ namespace Words
 {
     public class Fact
     {
+        public int FactNumber { get; private set; }
         private readonly List<Word> _wordsInFact = new();
-        
+
         public Fact(AllWordsList wordList, List<int> numbersOfWords)
         {
             foreach (var wordInt in numbersOfWords)
@@ -16,22 +17,26 @@ namespace Words
             }
         }
 
-        public Fact(List<Word> words)
+        public Fact(List<Word> words, int factNumber)
         {
+            FactNumber = factNumber;
             _wordsInFact = new List<Word>(words);
         }
 
-        public string GetFact()
+        public string GetStringFact
         {
-            StringBuilder stringBuilder = new();
-
-            foreach (var word in _wordsInFact)
+            get
             {
-                stringBuilder.Append(word.GetWordForFacts);
-                stringBuilder.Append(" ");
-            }
+                StringBuilder stringBuilder = new();
 
-            return stringBuilder.ToString();
+                foreach (var word in _wordsInFact)
+                {
+                    stringBuilder.Append(word.GetWordForFacts);
+                    stringBuilder.Append(" ");
+                }
+
+                return stringBuilder.ToString();
+            }
         }
     }
 }

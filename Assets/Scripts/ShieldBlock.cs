@@ -5,16 +5,17 @@ using UnityEngine.Events;
 
 public class ShieldBlock : StoneBlock
 {
-    public int shield;
-    private int _shield;
-    public TMP_Text viewShield;
-    private UnityAction _checkEndAction;
+    [SerializeField] private int shield;
+    [SerializeField] private TMP_Text viewShield;
+    
+    private int _currentShield;
+    private UnityAction _destroyBlockAction;
 
-    public void Initialize(UnityAction checkEndAction)
+    public void Initialize(UnityAction destroyBlockAction)
     {
         gameObject.SetActive(true);
-        _shield = shield;
-        _checkEndAction = checkEndAction;
+        _currentShield = shield;
+        _destroyBlockAction = destroyBlockAction;
         ViewShield();
     }
 
@@ -25,17 +26,17 @@ public class ShieldBlock : StoneBlock
 
     private void CalculateShield()
     {
-        if (_shield == 1)
+        if (_currentShield == 1)
         {
             gameObject.SetActive(false);
-            _checkEndAction?.Invoke();
+            _destroyBlockAction?.Invoke();
         }
-        _shield--;
+        _currentShield--;
         ViewShield();
     }
 
     private void ViewShield()
     {
-        viewShield.text = _shield.ToString();
+        viewShield.text = _currentShield.ToString();
     }
 }

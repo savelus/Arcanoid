@@ -335,6 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50dcd6a72659482bb0a67860e3b36775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BlockType: 3
   shield: 4
   viewShield: {fileID: 4064843692664539231}
 --- !u!61 &5780242591599368318
