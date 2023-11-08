@@ -13,7 +13,7 @@ public class Ball : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void SetRandomForce()
+    private void SetRandomForce() 
     {
         force = Vector2.zero;
         force.x = Random.Range(-0.5f, 0.5f);

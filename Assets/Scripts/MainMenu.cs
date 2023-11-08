@@ -40,6 +40,14 @@ public class MainMenu : MonoBehaviour
         previousFactButton.onClick.AddListener(PreviousFact);
         startGameButton.onClick.AddListener(StartGame);
     }
+    
+    public void UnloadMenu()
+    {
+        exitButton.onClick.RemoveAllListeners();
+        nextFactButton.onClick.RemoveAllListeners();
+        previousFactButton.onClick.RemoveAllListeners();
+        startGameButton.onClick.RemoveAllListeners();
+    }
 
     private void StartGame() => 
         GameStateMachine.Enter<LoadLevelState>();

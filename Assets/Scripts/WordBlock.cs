@@ -1,24 +1,20 @@
-﻿using System;
-using DG.Tweening;
-using TMPro;
+﻿using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 using Words;
-using Object = UnityEngine.Object;
 
 public class WordBlock : StoneBlock
 {
     public SpawnedText spawnedWord;
-    private AllWordsList _allWordsList;
 
     private Word _word;
 
-    private UnityAction _checkEndAction;
+    private UnityAction<WordBlock> _preDestroyAction;
 
-    public void Initialize(Word word, UnityAction checkEndAction)
+    public void Initialize(Word word, UnityAction<WordBlock> preDestroyAction)
     {
         gameObject.SetActive(true);
-        _checkEndAction = checkEndAction;
+        _preDestroyAction = preDestroyAction;
         _word = word;
     }
 
@@ -31,7 +27,8 @@ public class WordBlock : StoneBlock
             .Append(word.transform.DOMoveY(10f, 6f))
            .AppendCallback(() => Destroy(word.gameObject));
             
-        gameObject.SetActive(false);
-        _checkEndAction?.Invoke();
+       _preDestroyAction?.Invoke(this);
+       
+       Destroy(this);
     }
 }

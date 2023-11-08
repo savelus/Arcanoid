@@ -51,7 +51,7 @@ public class Level : MonoBehaviour
         _lives.gameObject.SetActive(true);
         downBorder.Initialize(LoseLive);
         gameObject.SetActive(true);
-        interactionObjects.ball.Initialize(ballPosition.transform.position);
+        interactionObjects.Ball.Initialize(ballPosition.transform.position);
         
         exitButton.onClick.RemoveAllListeners();
         exitButton.onClick.AddListener(LoseLevel);
@@ -83,11 +83,11 @@ public class Level : MonoBehaviour
     private void LoseLive()
     {
         CurrentLivesCount--;
-        _interactionObjects.ball.gameObject.SetActive(false);
-        _interactionObjects.ball.Initialize(ballPosition.transform.position);
+        _interactionObjects.Ball.gameObject.SetActive(false);
+        _interactionObjects.Ball.Initialize(ballPosition.transform.position);
         if (CurrentLivesCount <= 0)
         {
-            _interactionObjects.ball.ballRigidbody.AddForce(Vector2.zero);
+            _interactionObjects.Ball.ballRigidbody.AddForce(Vector2.zero);
             LoseLevel();
         }
         
@@ -100,7 +100,6 @@ public class Level : MonoBehaviour
         _lives.gameObject.SetActive(false);
         _openMainMenuAction?.Invoke();
         _loseLevelScreen.SetActive(true);
-        
     }
 
     public void UpdateViewLives()

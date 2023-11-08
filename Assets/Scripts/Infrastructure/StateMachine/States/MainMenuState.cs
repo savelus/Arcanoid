@@ -17,6 +17,7 @@
 
         public void Exit()
         {
+            _mainMenu.UnloadMenu();
             _mainMenu.gameObject.SetActive(false);
         }
     }
